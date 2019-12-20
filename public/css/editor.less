@@ -1,0 +1,52 @@
+.editor-main {
+  max-width: 950px;
+  background: #fff;
+}
+.bf-content {
+  height: calc(~"100vh - 102px");
+}
+.bf-title {
+  padding-left: 15px !important;
+  box-sizing: border-box;
+  .MuiInputLabel-formControl {
+    left: 15px;
+  }
+  .MuiInputBase-root {
+    font-size: 24px;
+  }
+}
+
+.editor-modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .blank-body {
+    min-width: 360px;
+    background: #fff;
+    padding: 20px;
+    cursor: default;
+    border-radius: 4px;
+    outline: none;
+    display: flex;
+    flex-direction: column;
+    .footer {
+      text-align: right;
+    }
+    button {
+      margin-left: 15px;
+    }
+  }
+}
+
+#simple-modal-description {
+  padding: 10px 0 25px;
+  h4 {
+    margin-bottom: 10px;
+  }
+  & > span {
+    margin-right: 10px;
+  }
+  .draft {
+    margin-top: 10px;
+  }
+}

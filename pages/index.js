@@ -1,88 +1,120 @@
-import React from 'react'
-import Head from 'next/head'
-import Nav from '../components/nav'
+import React, { useState } from "react";
+import Link from "next/link";
+import {
+  Grid,
+  Button,
+  Box,
+  TextField,
+  InputAdornment,
+  Icon
+} from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
+import SearchIcon from "@material-ui/icons/Search";
+import KeyboardArrowLeftIcon from "@material-ui/icons/KeyboardArrowLeft";
+import KeyboardArrowRightIcon from "@material-ui/icons/KeyboardArrowRight";
+import Moment from "react-moment";
+import jsCookie from "js-cookie";
+import fetch from "../public/js/nextFetch";
+import Main from "../layouts/main";
+import Empty from "../components/empty";
+// import "../public/css/index.less";
 
-const Home = () => (
-  <div>
-    <Head>
-      <title>Home</title>
-      <link rel="icon" href="/favicon.ico" />
-    </Head>
+export default function Home(props) {
+  const [postData, setPostData] = useState(props.lists);
+  const user = JSON.parse(jsCookie.get("userlogin") || null);
 
-    <Nav />
+  const handleTag = async str => {
+    const res = await fetch(`post?type=${str}`);
+    setPostData(res.data);
+  };
+  const searchData = async () => {};
 
-    <div className="hero">
-      <h1 className="title">Welcome to Next.js!</h1>
-      <p className="description">
-        To get started, edit <code>pages/index.js</code> and save to reload.
-      </p>
-
-      <div className="row">
-        <a href="https://nextjs.org/docs" className="card">
-          <h3>Documentation &rarr;</h3>
-          <p>Learn more about Next.js in the documentation.</p>
-        </a>
-        <a href="https://nextjs.org/learn" className="card">
-          <h3>Next.js Learn &rarr;</h3>
-          <p>Learn about Next.js by following an interactive tutorial!</p>
-        </a>
-        <a
-          href="https://github.com/zeit/next.js/tree/master/examples"
-          className="card"
+  return (
+    <Main>
+      <Grid container spacing={1}>
+        <Box
+          style={{ width: "100%" }}
+          display="flex"
+          justifyContent="space-between"
+          alignItems="baseline"
+          marginTop="40px"
         >
-          <h3>Examples &rarr;</h3>
-          <p>Find other example boilerplates on the Next.js GitHub.</p>
-        </a>
-      </div>
-    </div>
+          <Box m={1}>
+            <Button onClick={() => handleTag("0")}>全部</Button>
+            <Button onClick={() => handleTag("1")}>知识分享</Button>
+            <Button onClick={() => handleTag("2")}>感悟</Button>
+            <Button onClick={() => handleTag("3")}>其它</Button>
+            {user && <Button onClick={() => handleTag("99")}>草稿</Button>}
+          </Box>
+          <TextField
+            placeholder="高级搜索"
+            id="standard-bare"
+            margin="normal"
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <SearchIcon
+                    onClick={() => searchData}
+                    color="disabled"
+                    cursor="pointer"
+                  />
+                </InputAdornment>
+              )
+            }}
+          />
+        </Box>
+        {postData.length ? (
+          postData.map(item => (
+            <Grid item xs={12} key={item.id}>
+              <div className="markdown-body article ar-item">
+                <div className="flex-box title">
+                  <div>
+                    <Moment format="YYYY-MM-DD">{item.createTime}</Moment>
+                    <span className="tag">{item.tagName}</span>
+                  </div>
+                  <div>
+                    {user && (
+                      <Button
+                        size="small"
+                        href={"/admin/editor?entry=article&postId=" + item.id}
+                      >
+                        编辑
+                      </Button>
+                    )}
 
-    <style jsx>{`
-      .hero {
-        width: 100%;
-        color: #333;
-      }
-      .title {
-        margin: 0;
-        width: 100%;
-        padding-top: 80px;
-        line-height: 1.15;
-        font-size: 48px;
-      }
-      .title,
-      .description {
-        text-align: center;
-      }
-      .row {
-        max-width: 880px;
-        margin: 80px auto 40px;
-        display: flex;
-        flex-direction: row;
-        justify-content: space-around;
-      }
-      .card {
-        padding: 18px 18px 24px;
-        width: 220px;
-        text-align: left;
-        text-decoration: none;
-        color: #434343;
-        border: 1px solid #9b9b9b;
-      }
-      .card:hover {
-        border-color: #067df7;
-      }
-      .card h3 {
-        margin: 0;
-        color: #067df7;
-        font-size: 18px;
-      }
-      .card p {
-        margin: 0;
-        padding: 12px 0 0;
-        font-size: 13px;
-        color: #333;
-      }
-    `}</style>
-  </div>
-)
+                    <Button size="small" href={"/post?id=" + item.id}>
+                      查看详情
+                    </Button>
+                  </div>
+                </div>
+                <div dangerouslySetInnerHTML={{ __html: item.content }}></div>
+              </div>
+            </Grid>
+          ))
+        ) : (
+          <Empty />
+        )}
+      </Grid>
 
-export default Home
+      {// 暂不公开
+      false && (
+        <Box display="flex" marginBottom="60px" justifyContent="center" p={1}>
+          <Button
+            variant="contained"
+            startIcon={<KeyboardArrowLeftIcon></KeyboardArrowLeftIcon>}
+            style={{ marginRight: "15px" }}
+          ></Button>
+          <Button
+            variant="contained"
+            endIcon={<KeyboardArrowRightIcon></KeyboardArrowRightIcon>}
+          ></Button>
+        </Box>
+      )}
+    </Main>
+  );
+}
+
+Home.getInitialProps = async ({ query }) => {
+  const res = await fetch("post");
+  return { lists: res.data };
+};

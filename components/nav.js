@@ -1,56 +1,72 @@
-import React from 'react'
-import Link from 'next/link'
+import React, { Component } from "react";
+import Link from "next/link";
+import jsCookie from "js-cookie";
+import { makeStyles } from "@material-ui/core/styles";
+import Button from "@material-ui/core/Button";
+import "./styles.less";
 
-const links = [
-  { href: 'https://zeit.co/now', label: 'ZEIT' },
-  { href: 'https://github.com/zeit/next.js', label: 'GitHub' },
-].map(link => {
-  link.key = `nav-link-${link.href}-${link.label}`
-  return link
-})
+export default class Nav extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      fixBar: false,
+      user: JSON.parse(jsCookie.get("userlogin") || null)
+    };
+  }
 
-const Nav = () => (
-  <nav>
-    <ul>
-      <li>
-        <Link href="/">
-          <a>Home</a>
-        </Link>
-      </li>
-      {links.map(({ key, href, label }) => (
-        <li key={key}>
-          <a href={href}>{label}</a>
-        </li>
-      ))}
-    </ul>
+  useStyles() {
+    return makeStyles(theme => ({
+      button: {
+        margin: theme.spacing(1)
+      }
+    }));
+  }
 
-    <style jsx>{`
-      :global(body) {
-        margin: 0;
-        font-family: -apple-system, BlinkMacSystemFont, Avenir Next, Avenir,
-          Helvetica, sans-serif;
-      }
-      nav {
-        text-align: center;
-      }
-      ul {
-        display: flex;
-        justify-content: space-between;
-      }
-      nav > ul {
-        padding: 4px 16px;
-      }
-      li {
-        display: flex;
-        padding: 6px 8px;
-      }
-      a {
-        color: #067df7;
-        text-decoration: none;
-        font-size: 13px;
-      }
-    `}</style>
-  </nav>
-)
+  render() {
+    const classed = this.useStyles();
+    return (
+      <nav className={this.props.fixBar ? "fix-header" : ""}>
+        <div className="borderBack">
+          <div className="container-mini">
+            <Button className={classed.button}>
+              <Link href="/">
+                <a>首页</a>
+              </Link>
+            </Button>
+            <Button className={classed.button}>
+              <Link href="/tools">
+                <a>工具箱</a>
+              </Link>
+            </Button>
+            <Button className={classed.button}>
+              <Link href="/about">
+                <a>About me</a>
+              </Link>
+            </Button>
+            <Button className={classed.button}>
+              <Link href="https://github.com/hlipeter/boxland">
+                <a>Github</a>
+              </Link>
+            </Button>
 
-export default Nav
+            <div className="loginBan">
+              {this.state.user ? (
+                <div className="loginName">
+                  <Link href="/admin/index">
+                    <a>欢迎，{this.state.user["username"]}</a>
+                  </Link>
+                </div>
+              ) : (
+                <Button className={classed.button}>
+                  <Link href="/admin/login">
+                    <a>登录</a>
+                  </Link>
+                </Button>
+              )}
+            </div>
+          </div>
+        </div>
+      </nav>
+    );
+  }
+}
