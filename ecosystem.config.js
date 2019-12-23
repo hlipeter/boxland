@@ -5,8 +5,8 @@ module.exports = {
       script: "npm run start",
       cwd: "./",
       // Options reference: https://pm2.keymetrics.io/docs/usage/application-declaration/
-      args: "one two",
-      instances: 2,
+      // args: "one two",
+      instances: 1,
       autorestart: true,
       watch: [".next"],
       ignore_watch: ["node_modules", "logs", "static"],
