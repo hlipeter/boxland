@@ -8,7 +8,7 @@ apps:
     watch: [".next"] # 监听文件目录变化
     ignore_watch: ["node_modules", "logs", "static"]
     node_args: "--harmony"
-    max_memory_restart: "500MB"
+    max_memory_restart: "200M"
     env: # 环境变量
       NODE_ENV: development
     env_production:
