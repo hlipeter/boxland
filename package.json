@@ -5,7 +5,9 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "setup": "pm2 deploy deploy.yaml production setup",
+    "update": "pm2 deploy deploy.yaml production update"
   },
   "dependencies": {
     "@material-ui/core": "^4.6.1",
