@@ -5,7 +5,7 @@ apps:
     cwd: ./
     instances: 1
     autorestart: true
-    watch: ["pages", "pages", "components"] # 监听文件目录变化
+    watch: [".next"] # 监听文件目录变化
     ignore_watch: [".git", "node_modules", "logs", "static"]
     node_args: "--harmony"
     max_memory_restart: "200M"
@@ -23,7 +23,7 @@ deploy: # 部署脚本
     ssh_options: StrictHostKeyChecking=no # SSH 公钥检查
     repo: git@github.com:hlipeter/boxland.git # 远程仓库地址
     path: /www/product # 拉取到服务器某个目录下
-    pre-deploy: yarn && yarn build # 部署前执行
+    pre-deploy: yarn # 部署前执行
     post-deploy: pm2 reload deploy.yaml --env production # 部署后执行
     env:
       NODE_ENV: production
