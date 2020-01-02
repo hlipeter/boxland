@@ -2,7 +2,7 @@ import fetch from "isomorphic-unfetch";
 import qs from "query-string";
 
 const defaultOptions = {
-  basiclUrl: "http://api.boxser.cn/api/",
+  basiclUrl: "//api.boxser.cn/api/",
   method: "get",
   headers: {
     "Content-Type": "application/x-www-form-urlencoded",
