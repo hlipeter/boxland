@@ -151,7 +151,18 @@
       "static/FDTbZ2Eb7MCki2jbjhr8T/pages/index.js": 9,
       "static/FDTbZ2Eb7MCki2jbjhr8T/pages/invitation.js": 10,
       "static/FDTbZ2Eb7MCki2jbjhr8T/pages/post.js": 11,
-      "static/FDTbZ2Eb7MCki2jbjhr8T/pages/tools.js": 12
+      "static/FDTbZ2Eb7MCki2jbjhr8T/pages/tools.js": 12,
+      "static/s1PUonKKJksZKv2jaoDXm/pages/_app.js": 14,
+      "static/s1PUonKKJksZKv2jaoDXm/pages/_document.js": 15,
+      "static/s1PUonKKJksZKv2jaoDXm/pages/_error.js": 16,
+      "static/s1PUonKKJksZKv2jaoDXm/pages/about.js": 17,
+      "static/s1PUonKKJksZKv2jaoDXm/pages/admin.js": 18,
+      "static/s1PUonKKJksZKv2jaoDXm/pages/admin/editor.js": 19,
+      "static/s1PUonKKJksZKv2jaoDXm/pages/admin/login.js": 20,
+      "static/s1PUonKKJksZKv2jaoDXm/pages/index.js": 21,
+      "static/s1PUonKKJksZKv2jaoDXm/pages/invitation.js": 22,
+      "static/s1PUonKKJksZKv2jaoDXm/pages/post.js": 23,
+      "static/s1PUonKKJksZKv2jaoDXm/pages/tools.js": 24
     },
     "bySource": {
       "0 node_modules/next/dist/build/webpack/loaders/next-babel-loader.js??ref--4!pages/admin/editor.js ../../components/bf-editor": 13
@@ -159,18 +170,18 @@
     "usedIds": [
       0,
       1,
-      10,
-      11,
-      12,
       13,
-      2,
-      3,
-      4,
-      5,
-      6,
-      7,
-      8,
-      9
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24
     ]
   }
 }

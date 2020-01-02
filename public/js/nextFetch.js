@@ -6,6 +6,7 @@ const defaultOptions = {
   method: "get",
   headers: {
     "Content-Type": "application/x-www-form-urlencoded",
+    "Access-Control-Allow-Origin": "*",
     Accept: "application/json"
   },
   timeout: 6000

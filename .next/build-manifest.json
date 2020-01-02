@@ -2,71 +2,71 @@
   "devFiles": [],
   "pages": {
     "/": [
-      "static/runtime/webpack-10dfe280ea01df245b13.js",
-      "static/chunks/commons.e98bfca195113a33b0ae.js",
+      "static/runtime/webpack-9000a3ed804595fe2bbe.js",
+      "static/chunks/commons.b96bc061adee5e17d5a0.js",
       "static/css/styles.1e812d10.chunk.css",
       "static/chunks/styles.cda1418ffa421a308c9c.js",
       "static/runtime/main-5a5c16aa1f58bad948b1.js"
     ],
     "/_app": [
-      "static/runtime/webpack-10dfe280ea01df245b13.js",
-      "static/chunks/commons.e98bfca195113a33b0ae.js",
+      "static/runtime/webpack-9000a3ed804595fe2bbe.js",
+      "static/chunks/commons.b96bc061adee5e17d5a0.js",
       "static/runtime/main-5a5c16aa1f58bad948b1.js"
     ],
     "/_error": [
-      "static/runtime/webpack-10dfe280ea01df245b13.js",
-      "static/chunks/commons.e98bfca195113a33b0ae.js",
+      "static/runtime/webpack-9000a3ed804595fe2bbe.js",
+      "static/chunks/commons.b96bc061adee5e17d5a0.js",
       "static/runtime/main-5a5c16aa1f58bad948b1.js"
     ],
     "/_polyfills": [
       "static/runtime/polyfills-5046322fc39b8fa8b0d2.js"
     ],
     "/about": [
-      "static/runtime/webpack-10dfe280ea01df245b13.js",
-      "static/chunks/commons.e98bfca195113a33b0ae.js",
+      "static/runtime/webpack-9000a3ed804595fe2bbe.js",
+      "static/chunks/commons.b96bc061adee5e17d5a0.js",
       "static/css/styles.1e812d10.chunk.css",
       "static/chunks/styles.cda1418ffa421a308c9c.js",
       "static/runtime/main-5a5c16aa1f58bad948b1.js"
     ],
     "/admin": [
-      "static/runtime/webpack-10dfe280ea01df245b13.js",
-      "static/chunks/commons.e98bfca195113a33b0ae.js",
+      "static/runtime/webpack-9000a3ed804595fe2bbe.js",
+      "static/chunks/commons.b96bc061adee5e17d5a0.js",
       "static/runtime/main-5a5c16aa1f58bad948b1.js"
     ],
     "/admin/editor": [
-      "static/runtime/webpack-10dfe280ea01df245b13.js",
-      "static/chunks/commons.e98bfca195113a33b0ae.js",
+      "static/runtime/webpack-9000a3ed804595fe2bbe.js",
+      "static/chunks/commons.b96bc061adee5e17d5a0.js",
       "static/runtime/main-5a5c16aa1f58bad948b1.js"
     ],
     "/admin/login": [
-      "static/runtime/webpack-10dfe280ea01df245b13.js",
-      "static/chunks/commons.e98bfca195113a33b0ae.js",
+      "static/runtime/webpack-9000a3ed804595fe2bbe.js",
+      "static/chunks/commons.b96bc061adee5e17d5a0.js",
       "static/runtime/main-5a5c16aa1f58bad948b1.js"
     ],
     "/index": [
-      "static/runtime/webpack-10dfe280ea01df245b13.js",
-      "static/chunks/commons.e98bfca195113a33b0ae.js",
+      "static/runtime/webpack-9000a3ed804595fe2bbe.js",
+      "static/chunks/commons.b96bc061adee5e17d5a0.js",
       "static/css/styles.1e812d10.chunk.css",
       "static/chunks/styles.cda1418ffa421a308c9c.js",
       "static/runtime/main-5a5c16aa1f58bad948b1.js"
     ],
     "/invitation": [
-      "static/runtime/webpack-10dfe280ea01df245b13.js",
-      "static/chunks/commons.e98bfca195113a33b0ae.js",
+      "static/runtime/webpack-9000a3ed804595fe2bbe.js",
+      "static/chunks/commons.b96bc061adee5e17d5a0.js",
       "static/css/styles.1e812d10.chunk.css",
       "static/chunks/styles.cda1418ffa421a308c9c.js",
       "static/runtime/main-5a5c16aa1f58bad948b1.js"
     ],
     "/post": [
-      "static/runtime/webpack-10dfe280ea01df245b13.js",
-      "static/chunks/commons.e98bfca195113a33b0ae.js",
+      "static/runtime/webpack-9000a3ed804595fe2bbe.js",
+      "static/chunks/commons.b96bc061adee5e17d5a0.js",
       "static/css/styles.1e812d10.chunk.css",
       "static/chunks/styles.cda1418ffa421a308c9c.js",
       "static/runtime/main-5a5c16aa1f58bad948b1.js"
     ],
     "/tools": [
-      "static/runtime/webpack-10dfe280ea01df245b13.js",
-      "static/chunks/commons.e98bfca195113a33b0ae.js",
+      "static/runtime/webpack-9000a3ed804595fe2bbe.js",
+      "static/chunks/commons.b96bc061adee5e17d5a0.js",
       "static/css/styles.1e812d10.chunk.css",
       "static/chunks/styles.cda1418ffa421a308c9c.js",
       "static/runtime/main-5a5c16aa1f58bad948b1.js"
