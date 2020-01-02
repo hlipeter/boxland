@@ -24,7 +24,7 @@ deploy: # 部署脚本
     repo: git@github.com:hlipeter/boxland.git # 远程仓库地址
     path: /www/product # 拉取到服务器某个目录下
     pre-setup: rm -rf /www/product/source
-    pre-deploy: git stash && git pull origin master && git stash pop # 部署前执行
+    pre-deploy: rm -rf /www/product/current/.next # 部署前执行
     post-deploy: yarn && yarn build && pm2 reload deploy.yaml --env production # 部署后执行
     env:
       NODE_ENV: production
