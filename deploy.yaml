@@ -23,7 +23,7 @@ deploy: # 部署脚本
     ssh_options: StrictHostKeyChecking=no # SSH 公钥检查
     repo: git@github.com:hlipeter/boxland.git # 远程仓库地址
     path: /www/product # 拉取到服务器某个目录下
-    pre-setup': "rm -rf /www/product/source"
+    pre-setup: rm -rf /www/product/source
     pre-deploy: yarn && yarn build # 部署前执行
     post-deploy: pm2 reload deploy.yaml --env production # 部署后执行
     env:
