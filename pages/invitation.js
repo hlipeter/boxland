@@ -21,7 +21,7 @@ export default function Invitation() {
       setCode("请输入邀请码！");
       return;
     }
-    const result = await fetch(`users?code=${code}`);
+    const result = await fetch(`user/invite?code=${code}`);
     if (result.data && result.data.length === 0) {
       setCode("");
       setToast("请输入正确的邀请码！");
@@ -65,7 +65,7 @@ export default function Invitation() {
             id="outlined-basic"
             label="请输入邀请码"
             variant="outlined"
-            autocomplete="off"
+            autoComplete="off"
             onChange={e => setCode(e.target.value)}
             onKeyUp={handleKeyup}
             InputProps={{

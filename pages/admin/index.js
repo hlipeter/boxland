@@ -37,8 +37,9 @@ export default function AdminIndex() {
     },
     {
       img: "/static/images/04.jpg",
-      title: "其它",
-      author: "备用选项"
+      title: "首页",
+      author: "回到首页",
+      to: "/"
     }
   ];
 
@@ -75,11 +76,9 @@ export default function AdminIndex() {
     }));
   };
   const classes = useStyles();
+
   return (
-    <div
-      className={classes.root}
-      style={{ width: "480px", margin: "40px auto" }}
-    >
+    <div className={classes.root} style={{ width: "480px", margin: "auto" }}>
       <GridList cellHeight={180} className={classes.gridList}>
         <GridListTile key="Subheader" cols={2} style={{ height: "auto" }}>
           <ListSubheader component="div">

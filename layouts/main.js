@@ -42,12 +42,6 @@ export default function Main(props) {
         <link rel="icon" href="/favicon.ico" />
         <link rel="stylesheet" href="/css/markdown.css" />
         <link rel="stylesheet" href="/css/common.css" />
-        <style
-          id="flashStyle"
-          dangerouslySetInnerHTML={{
-            __html: "*, *::before, *::after{transition: none!important;}"
-          }}
-        ></style>
       </Head>
       <HideOnScroll {...props}>
         <AppBar color="inherit">

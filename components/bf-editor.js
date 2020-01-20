@@ -19,10 +19,10 @@ import "../public/css/editor.less";
 export default function BfEditor(props) {
   const { entry, postId } = props;
   const user = JSON.parse(jsCookie.get("userlogin") || null);
-  const [title, setTitle] = useState(null);
+  const [title, setTitle] = useState("");
   const [open, setOpen] = useState(false);
   const [taglist, setTag] = useState(null);
-  const [tagIndex, setIndex] = useState(1);
+  const [tagObj, settagObj] = useState({});
   const [checked, setChecked] = React.useState(false);
   const [editorState, setEditor] = useState(
     BraftEditor.createEditorState(null)
@@ -45,7 +45,7 @@ export default function BfEditor(props) {
   const submitContent = async () => {
     if (user && entry === "userinfo") {
       let result = await fetch({
-        url: "user_CV",
+        url: "user/resume",
         method: "PUT",
         query: {
           userId: user.id,
@@ -67,26 +67,57 @@ export default function BfEditor(props) {
     }
     let params = {
       title,
-      tagname: taglist[tagIndex]["tagname"],
-      tagid: taglist[tagIndex]["id"],
+      tagname: tagObj["tagname"],
+      tagid: tagObj["id"],
       isPublic: checked ? "0" : "1",
       uid: user.id,
       content: editorState
     };
-    console.log(params);
-    fetch({
-      url: "post",
-      method: "POST",
-      query: params
-    }).then(result => {
+    if (postId) {
+      // 修改文章
+      params.id = postId;
+      let result = await fetch({
+        url: `post/${postId}`,
+        method: "put",
+        query: params
+      });
+
+      console.log("this-result", result);
+
+      if (result.code != 200) {
+        return alert(result["message"]);
+      }
+      setOpen(false);
+      alert("更新成功！");
+      Router.push({
+        pathname: "/admin/index"
+      });
+    } else {
+      // 写文章
+      let result = await fetch({
+        url: "post",
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json; charset=utf-8"
+        },
+        query: params
+      });
+      if (result.code != 200) {
+        return alert(result["message"]);
+      }
+      setOpen(false);
       alert("发布成功！");
-    });
+      Router.push({
+        pathname: "/admin/index"
+      });
+    }
   };
 
   async function fetchTag() {
     const res = await fetch("tag");
     if (res.code === 200) {
       setTag(res.data);
+      settagObj(res.data[0]);
     }
     if (postId && Number(postId) > 0) {
       let lastArticle = await fetch(`post/${postId}`);
@@ -94,11 +125,15 @@ export default function BfEditor(props) {
       setTitle(lastArticle["title"]);
       setEditor(BraftEditor.createEditorState(lastArticle["content"]));
       setChecked(lastArticle["isPublic"]);
-      setIndex(lastArticle["tagid"]);
+      let flag = res.data.filter(item => {
+        return item.id === lastArticle["tagid"];
+      });
+      settagObj(flag[0]);
     }
   }
+
   async function fetchUser() {
-    const res = await fetch(`user_CV?userId=${user.id}`);
+    const res = await fetch(`user/resume?userId=${user.id}`);
     if (res.code === 200) {
       setEditor(BraftEditor.createEditorState(res.data[0]["content"]));
     }
@@ -132,6 +167,7 @@ export default function BfEditor(props) {
                 id="standard-basic"
                 label="输入标题..."
                 className="bf-title"
+                value={title}
                 onChange={e => setTitle(e.target.value)}
               />
             ) : null
@@ -170,11 +206,11 @@ export default function BfEditor(props) {
                 return (
                   <Button
                     size="small"
-                    variant={tagIndex === tag.id ? "contained" : "outlined"}
+                    variant={tagObj.id === tag.id ? "contained" : "outlined"}
                     color="primary"
                     component="span"
                     onClick={() => {
-                      setIndex(index);
+                      settagObj(tag);
                     }}
                   >
                     {tag.tagname}

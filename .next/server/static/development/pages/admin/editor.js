@@ -221,10 +221,18 @@ class Edit extends react__WEBPACK_IMPORTED_MODULE_1__["Component"] {
         lineNumber: 17
       },
       __self: this
-    }, __jsx("title", {
+    }, __jsx("meta", {
+      "http-equiv": "Content-Security-Policy",
+      content: "upgrade-insecure-requests",
       __source: {
         fileName: _jsxFileName,
         lineNumber: 18
+      },
+      __self: this
+    }), __jsx("title", {
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 22
       },
       __self: this
     }, "\u7F16\u8F91"), __jsx("link", {
@@ -232,7 +240,7 @@ class Edit extends react__WEBPACK_IMPORTED_MODULE_1__["Component"] {
       href: "/favicon.ico",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 19
+        lineNumber: 23
       },
       __self: this
     }), __jsx("link", {
@@ -240,13 +248,13 @@ class Edit extends react__WEBPACK_IMPORTED_MODULE_1__["Component"] {
       href: "/css/common.css",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 20
+        lineNumber: 24
       },
       __self: this
     })), __jsx(DynamicEditor, Object(_babel_runtime_corejs2_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, this.props, {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 22
+        lineNumber: 26
       },
       __self: this
     })));

@@ -194,8 +194,8 @@ img {
 }
 
 .mix-container {
-  margin-top: 64px;
-  min-height: calc(100vh - 165px - 60px) !important;
+  min-height: calc(100vh - 160px) !important;
+  padding-top: 55px;
 }
 
 .container-title {

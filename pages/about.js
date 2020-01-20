@@ -21,7 +21,7 @@ export default function About(props) {
   }, [uid]);
 
   async function fetchUserCV(id) {
-    const res = await fetch("user_CV?userId=" + id);
+    const res = await fetch("user/resume?userId=" + id);
     setContent(res.data[0]["content"]);
   }
 

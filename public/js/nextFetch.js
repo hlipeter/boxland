@@ -2,7 +2,7 @@ import fetch from "isomorphic-unfetch";
 import qs from "query-string";
 
 const defaultOptions = {
-  basiclUrl: "//api.boxser.cn/api/",
+  basiclUrl: "http://api.boxser.cn/",
   method: "get",
   headers: {
     "Content-Type": "application/x-www-form-urlencoded",
@@ -11,6 +11,10 @@ const defaultOptions = {
   },
   timeout: 6000
 };
+
+if (process.env.NODE_ENV === "development") {
+  defaultOptions["basiclUrl"] = "http://127.0.0.1:8080/";
+}
 
 // ['DELETE', 'GET', 'HEAD', 'OPTIONS', 'POST', 'PATCH', 'PUT']
 
@@ -24,8 +28,7 @@ const nextFetch = options => {
   if (typeof options === "string") {
     requestUrl = defaultOptions["basiclUrl"] + options;
   }
-
-  if (method !== "get") {
+  if (method !== "get" && method !== "put") {
     opts.body = qs.stringify(opts.query);
   }
 

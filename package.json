@@ -19,10 +19,10 @@
     "js-cookie": "^2.2.1",
     "less": "^3.10.3",
     "moment": "^2.24.0",
-    "next": "9.1.4",
-    "react": "16.12.0",
-    "react-dom": "16.12.0",
-    "react-moment": "^0.9.6"
+    "next": "^9.1.6",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
+    "react-moment": "^0.9.7"
   },
   "devDependencies": {
     "babel-plugin-styled-components": "^1.10.6",

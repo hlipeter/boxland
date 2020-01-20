@@ -4422,11 +4422,11 @@ function dynamic(dynamicOptions, options) {
   } else if (typeof dynamicOptions === 'function') {
     loadableOptions.loader = dynamicOptions; // Support for having first argument being options, eg: dynamic({loader: import('../hello-world')})
   } else if (typeof dynamicOptions === 'object') {
-    loadableOptions = _Object$assign({}, loadableOptions, dynamicOptions);
+    loadableOptions = _Object$assign(_Object$assign({}, loadableOptions), dynamicOptions);
   } // Support for passing options, eg: dynamic(import('../hello-world'), {loading: () => <p>Loading something</p>})
 
 
-  loadableOptions = _Object$assign({}, loadableOptions, options);
+  loadableOptions = _Object$assign(_Object$assign({}, loadableOptions), options);
 
   if (typeof dynamicOptions === 'object' && !(dynamicOptions instanceof _Promise)) {
     // show deprecation warning for `modules` key in development
@@ -4471,7 +4471,7 @@ function dynamic(dynamicOptions, options) {
 
 
   if (loadableOptions.loadableGenerated) {
-    loadableOptions = _Object$assign({}, loadableOptions, loadableOptions.loadableGenerated);
+    loadableOptions = _Object$assign(_Object$assign({}, loadableOptions), loadableOptions.loadableGenerated);
     delete loadableOptions.loadableGenerated;
   } // support for disabling server side rendering, eg: dynamic(import('../hello-world'), {ssr: false})
 
@@ -4561,13 +4561,11 @@ var amp_1 = __webpack_require__(/*! ./amp */ "./node_modules/next/dist/next-serv
 function defaultHead() {
   var inAmpMode = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
   var head = [react_1["default"].createElement("meta", {
-    key: "charSet",
     charSet: "utf-8"
   })];
 
   if (!inAmpMode) {
     head.push(react_1["default"].createElement("meta", {
-      key: "viewport",
       name: "viewport",
       content: "width=device-width,minimum-scale=1,initial-scale=1"
     }));
@@ -4611,22 +4609,28 @@ function unique() {
   var metaTypes = new _Set();
   var metaCategories = {};
   return function (h) {
-    if (h.key && typeof h.key !== 'number' && h.key.indexOf('.$') === 0) {
-      if (keys.has(h.key)) return false;
-      keys.add(h.key);
-      return true;
-    } // If custom meta tag has been added the key will be prepended with `.$`, we can
-    // check for this and dedupe in favor of the custom one, so the default
-    // is not rendered as well
+    var unique = true;
 
+    if (h.key && typeof h.key !== 'number' && h.key.indexOf('$') > 0) {
+      var key = h.key.slice(h.key.indexOf('$') + 1);
 
-    if (keys.has(".$".concat(h.key))) return false; // eslint-disable-next-line default-case
+      if (keys.has(key)) {
+        unique = false;
+      } else {
+        keys.add(key);
+      }
+    } // eslint-disable-next-line default-case
+
 
     switch (h.type) {
       case 'title':
       case 'base':
-        if (tags.has(h.type)) return false;
-        tags.add(h.type);
+        if (tags.has(h.type)) {
+          unique = false;
+        } else {
+          tags.add(h.type);
+        }
+
         break;
 
       case 'meta':
@@ -4635,21 +4639,28 @@ function unique() {
           if (!h.props.hasOwnProperty(metatype)) continue;
 
           if (metatype === 'charSet') {
-            if (metaTypes.has(metatype)) return false;
-            metaTypes.add(metatype);
+            if (metaTypes.has(metatype)) {
+              unique = false;
+            } else {
+              metaTypes.add(metatype);
+            }
           } else {
             var category = h.props[metatype];
             var categories = metaCategories[metatype] || new _Set();
-            if (categories.has(category)) return false;
-            categories.add(category);
-            metaCategories[metatype] = categories;
+
+            if (categories.has(category)) {
+              unique = false;
+            } else {
+              categories.add(category);
+              metaCategories[metatype] = categories;
+            }
           }
         }
 
         break;
     }
 
-    return true;
+    return unique;
   };
 }
 /**
@@ -5038,7 +5049,7 @@ function () {
   }, {
     key: "_update",
     value: function _update(partial) {
-      this._state = _Object$assign({}, this._state, partial);
+      this._state = _Object$assign(_Object$assign({}, this._state), partial);
 
       this._callbacks.forEach(function (callback) {
         return callback();
@@ -5053,7 +5064,7 @@ function () {
   }, {
     key: "getCurrentValue",
     value: function getCurrentValue() {
-      return _Object$assign({}, this._state, {
+      return _Object$assign(_Object$assign({}, this._state), {
         error: this._res.error,
         loaded: this._res.loaded,
         loading: this._res.loading
@@ -5570,10 +5581,18 @@ function (_Component) {
           lineNumber: 17
         },
         __self: this
-      }, __jsx("title", {
+      }, __jsx("meta", {
+        "http-equiv": "Content-Security-Policy",
+        content: "upgrade-insecure-requests",
         __source: {
           fileName: _jsxFileName,
           lineNumber: 18
+        },
+        __self: this
+      }), __jsx("title", {
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 22
         },
         __self: this
       }, "\u7F16\u8F91"), __jsx("link", {
@@ -5581,7 +5600,7 @@ function (_Component) {
         href: "/favicon.ico",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 19
+          lineNumber: 23
         },
         __self: this
       }), __jsx("link", {
@@ -5589,13 +5608,13 @@ function (_Component) {
         href: "/css/common.css",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 20
+          lineNumber: 24
         },
         __self: this
       })), __jsx(DynamicEditor, Object(_babel_runtime_corejs2_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, this.props, {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 22
+          lineNumber: 26
         },
         __self: this
       })));

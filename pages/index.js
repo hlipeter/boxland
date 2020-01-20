@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import {
   Grid,
@@ -17,44 +17,85 @@ import jsCookie from "js-cookie";
 import fetch from "../public/js/nextFetch";
 import Main from "../layouts/main";
 import Empty from "../components/empty";
-// import "../public/css/index.less";
+
+import fetchTemp from "isomorphic-unfetch";
 
 export default function Home(props) {
   const [postData, setPostData] = useState(props.lists);
+  const [selected, setSelect] = useState(1);
   const user = JSON.parse(jsCookie.get("userlogin") || null);
+  const [tagList, setTags] = useState(props.tagList);
+  const [keyword, setkeyword] = useState(null);
+
+  useEffect(() => {
+    if (user === null) {
+      setTags(tagList.filter(item => item.id !== 99));
+    }
+  }, []);
 
   const handleTag = async str => {
+    setSelect(str);
     const res = await fetch(`post?type=${str}`);
     setPostData(res.data);
   };
-  const searchData = async () => {};
+  const searchData = async () => {
+    const res = await fetch(`post?keyword=${keyword}`);
+    setPostData(res.data);
+  };
+
+  const uploadFile = async files => {
+    // if (files[0].length === 0) return;
+    let file = files[0];
+    let body = new FormData();
+    body.append("imageFile", file);
+
+    let result = await fetchTemp("http://127.0.0.1:8011/upload/img", {
+      method: "put",
+      body
+    });
+
+    console.log("this-result", result);
+  };
 
   return (
     <Main>
+      <div className="upload" style={{ padding: "40px", background: "#ddd" }}>
+        <input
+          type="file"
+          accept="image/*"
+          onChange={e => {
+            uploadFile(e.target.files);
+          }}
+        />
+      </div>
+
       <Grid container spacing={1}>
-        <Box
-          style={{ width: "100%" }}
-          display="flex"
-          justifyContent="space-between"
-          alignItems="baseline"
-          marginTop="40px"
-        >
+        <div className="nav-warp">
           <Box m={1}>
-            <Button onClick={() => handleTag("0")}>全部</Button>
-            <Button onClick={() => handleTag("1")}>知识分享</Button>
-            <Button onClick={() => handleTag("2")}>感悟</Button>
-            <Button onClick={() => handleTag("3")}>其它</Button>
-            {user && <Button onClick={() => handleTag("99")}>草稿</Button>}
+            {tagList &&
+              tagList.map(item => {
+                return (
+                  <Button
+                    variant={item.id === selected ? "contained" : null}
+                    onClick={() => handleTag(item.id)}
+                    key={item.id}
+                  >
+                    {item.tagname}
+                  </Button>
+                );
+              })}
           </Box>
           <TextField
             placeholder="高级搜索"
             id="standard-bare"
             margin="normal"
+            value={keyword}
+            onChange={e => setkeyword(e.target.value)}
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
                   <SearchIcon
-                    onClick={() => searchData}
+                    onClick={searchData}
                     color="disabled"
                     cursor="pointer"
                   />
@@ -62,8 +103,8 @@ export default function Home(props) {
               )
             }}
           />
-        </Box>
-        {postData.length ? (
+        </div>
+        {postData && postData.length ? (
           postData.map(item => (
             <Grid item xs={12} key={item.id}>
               <div className="markdown-body article ar-item">
@@ -110,11 +151,22 @@ export default function Home(props) {
           ></Button>
         </Box>
       )}
+
+      <style jsx>{`
+        .nav-warp {
+          width: 100%;
+          display: flex;
+          justify-content: space-between;
+          margin-top: 40px;
+          align-items: baseline;
+        }
+      `}</style>
     </Main>
   );
 }
 
 Home.getInitialProps = async ({ query }) => {
   const res = await fetch("post");
-  return { lists: res.data };
+  const tag = await fetch("tag");
+  return { lists: res.data, tagList: tag.data };
 };

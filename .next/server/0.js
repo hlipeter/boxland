@@ -48,7 +48,7 @@ function BfEditor(props) {
   const {
     0: title,
     1: setTitle
-  } = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(null);
+  } = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])("");
   const {
     0: open,
     1: setOpen
@@ -58,9 +58,9 @@ function BfEditor(props) {
     1: setTag
   } = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(null);
   const {
-    0: tagIndex,
-    1: setIndex
-  } = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(1);
+    0: tagObj,
+    1: settagObj
+  } = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({});
   const [checked, setChecked] = react__WEBPACK_IMPORTED_MODULE_0___default.a.useState(false);
   const {
     0: editorState,
@@ -84,7 +84,7 @@ function BfEditor(props) {
   const submitContent = async () => {
     if (user && entry === "userinfo") {
       let result = await Object(_public_js_nextFetch__WEBPACK_IMPORTED_MODULE_4__["default"])({
-        url: "user_CV",
+        url: "user/resume",
         method: "PUT",
         query: {
           userId: user.id,
@@ -108,20 +108,53 @@ function BfEditor(props) {
 
     let params = {
       title,
-      tagname: taglist[tagIndex]["tagname"],
-      tagid: taglist[tagIndex]["id"],
+      tagname: tagObj["tagname"],
+      tagid: tagObj["id"],
       isPublic: checked ? "0" : "1",
       uid: user.id,
       content: editorState
     };
-    console.log(params);
-    Object(_public_js_nextFetch__WEBPACK_IMPORTED_MODULE_4__["default"])({
-      url: "post",
-      method: "POST",
-      query: params
-    }).then(result => {
+
+    if (postId) {
+      // 修改文章
+      params.id = postId;
+      let result = await Object(_public_js_nextFetch__WEBPACK_IMPORTED_MODULE_4__["default"])({
+        url: `post/${postId}`,
+        method: "put",
+        query: params
+      });
+      console.log("this-result", result);
+
+      if (result.code != 200) {
+        return alert(result["message"]);
+      }
+
+      setOpen(false);
+      alert("更新成功！");
+      next_router__WEBPACK_IMPORTED_MODULE_1___default.a.push({
+        pathname: "/admin/index"
+      });
+    } else {
+      // 写文章
+      let result = await Object(_public_js_nextFetch__WEBPACK_IMPORTED_MODULE_4__["default"])({
+        url: "post",
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json; charset=utf-8"
+        },
+        query: params
+      });
+
+      if (result.code != 200) {
+        return alert(result["message"]);
+      }
+
+      setOpen(false);
       alert("发布成功！");
-    });
+      next_router__WEBPACK_IMPORTED_MODULE_1___default.a.push({
+        pathname: "/admin/index"
+      });
+    }
   };
 
   async function fetchTag() {
@@ -129,6 +162,7 @@ function BfEditor(props) {
 
     if (res.code === 200) {
       setTag(res.data);
+      settagObj(res.data[0]);
     }
 
     if (postId && Number(postId) > 0) {
@@ -137,12 +171,15 @@ function BfEditor(props) {
       setTitle(lastArticle["title"]);
       setEditor(braft_editor__WEBPACK_IMPORTED_MODULE_5___default.a.createEditorState(lastArticle["content"]));
       setChecked(lastArticle["isPublic"]);
-      setIndex(lastArticle["tagid"]);
+      let flag = res.data.filter(item => {
+        return item.id === lastArticle["tagid"];
+      });
+      settagObj(flag[0]);
     }
   }
 
   async function fetchUser() {
-    const res = await Object(_public_js_nextFetch__WEBPACK_IMPORTED_MODULE_4__["default"])(`user_CV?userId=${user.id}`);
+    const res = await Object(_public_js_nextFetch__WEBPACK_IMPORTED_MODULE_4__["default"])(`user/resume?userId=${user.id}`);
 
     if (res.code === 200) {
       setEditor(braft_editor__WEBPACK_IMPORTED_MODULE_5___default.a.createEditorState(res.data[0]["content"]));
@@ -153,7 +190,7 @@ function BfEditor(props) {
     className: "editor",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 108
+      lineNumber: 143
     },
     __self: this
   }, __jsx(_material_ui_core__WEBPACK_IMPORTED_MODULE_2__["Typography"], {
@@ -168,7 +205,7 @@ function BfEditor(props) {
     },
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 109
+      lineNumber: 144
     },
     __self: this
   }, __jsx(braft_editor__WEBPACK_IMPORTED_MODULE_5___default.a, {
@@ -184,16 +221,17 @@ function BfEditor(props) {
       id: "standard-basic",
       label: "\u8F93\u5165\u6807\u9898...",
       className: "bf-title",
+      value: title,
       onChange: e => setTitle(e.target.value),
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 128
+        lineNumber: 163
       },
       __self: this
     }) : null,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 120
+      lineNumber: 155
     },
     __self: this
   }), __jsx(_material_ui_core__WEBPACK_IMPORTED_MODULE_2__["Fab"], {
@@ -210,13 +248,13 @@ function BfEditor(props) {
     onClick: submitContent,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 141
+      lineNumber: 177
     },
     __self: this
   }, __jsx(_material_ui_icons_Navigation__WEBPACK_IMPORTED_MODULE_3___default.a, {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 154
+      lineNumber: 190
     },
     __self: this
   }), "\u53D1\u5E03")), __jsx(_material_ui_core__WEBPACK_IMPORTED_MODULE_2__["Modal"], {
@@ -225,48 +263,48 @@ function BfEditor(props) {
     onClose: () => setOpen(false),
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 159
+      lineNumber: 195
     },
     __self: this
   }, __jsx("div", {
     className: "blank-body",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 164
+      lineNumber: 200
     },
     __self: this
   }, __jsx("h2", {
     id: "simple-modal-title",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 165
+      lineNumber: 201
     },
     __self: this
   }, "\u53D1\u5E03\u6587\u7AE0"), __jsx("div", {
     id: "simple-modal-description",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 166
+      lineNumber: 202
     },
     __self: this
   }, __jsx("h4", {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 167
+      lineNumber: 203
     },
     __self: this
   }, "\u6807\u7B7E\u9009\u62E9"), taglist && taglist.map(tag => {
     return __jsx(_material_ui_core__WEBPACK_IMPORTED_MODULE_2__["Button"], {
       size: "small",
-      variant: tagIndex === tag.id ? "contained" : "outlined",
+      variant: tagObj.id === tag.id ? "contained" : "outlined",
       color: "primary",
       component: "span",
       onClick: () => {
-        setIndex(index);
+        settagObj(tag);
       },
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 171
+        lineNumber: 207
       },
       __self: this
     }, tag.tagname);
@@ -274,7 +312,7 @@ function BfEditor(props) {
     className: "draft",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 185
+      lineNumber: 221
     },
     __self: this
   }, __jsx(_material_ui_core__WEBPACK_IMPORTED_MODULE_2__["FormControlLabel"], {
@@ -287,21 +325,21 @@ function BfEditor(props) {
       value: "0",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 188
+        lineNumber: 224
       },
       __self: this
     }),
     label: "\u4FDD\u5B58\u4E3A\u8349\u7A3F",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 186
+      lineNumber: 222
     },
     __self: this
   }))), __jsx("div", {
     className: "footer",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 201
+      lineNumber: 237
     },
     __self: this
   }, __jsx(_material_ui_core__WEBPACK_IMPORTED_MODULE_2__["Button"], {
@@ -310,7 +348,7 @@ function BfEditor(props) {
     onClick: () => setOpen(false),
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 202
+      lineNumber: 238
     },
     __self: this
   }, "\u53D6\u6D88"), __jsx(_material_ui_core__WEBPACK_IMPORTED_MODULE_2__["Button"], {
@@ -319,7 +357,7 @@ function BfEditor(props) {
     color: "primary",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 209
+      lineNumber: 245
     },
     __self: this
   }, "\u786E\u8BA4\u5E76\u4FDD\u5B58")))));
@@ -368,14 +406,20 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const defaultOptions = {
-  basiclUrl: "http://api.boxser.cn/api/",
+  basiclUrl: "http://api.boxser.cn/",
   method: "get",
   headers: {
     "Content-Type": "application/x-www-form-urlencoded",
+    "Access-Control-Allow-Origin": "*",
     Accept: "application/json"
   },
   timeout: 6000
-}; // ['DELETE', 'GET', 'HEAD', 'OPTIONS', 'POST', 'PATCH', 'PUT']
+};
+
+if (true) {
+  defaultOptions["basiclUrl"] = "http://127.0.0.1:8080/";
+} // ['DELETE', 'GET', 'HEAD', 'OPTIONS', 'POST', 'PATCH', 'PUT']
+
 
 const nextFetch = options => {
   let [opts, method, requestUrl] = [null, "get", null];
@@ -388,7 +432,7 @@ const nextFetch = options => {
     requestUrl = defaultOptions["basiclUrl"] + options;
   }
 
-  if (method !== "get") {
+  if (method !== "get" && method !== "put") {
     opts.body = query_string__WEBPACK_IMPORTED_MODULE_2___default.a.stringify(opts.query);
   }
 

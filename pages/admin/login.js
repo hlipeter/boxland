@@ -23,7 +23,7 @@ export default function Login() {
       return;
     }
     const result = await fetch(
-      `login?username=${username}&password=${password}`
+      `user/login?username=${username}&password=${password}`
     );
     if (result.code === 200 && result.data.length) {
       jsCookie.set("userlogin", result.data[0], { expires: 3 }); // 三天过期
